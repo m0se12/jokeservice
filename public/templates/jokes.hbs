@@ -1,10 +1,5 @@
 {{#each jokes}}
     <div class="joke" id="{{_id}}">
-        <div class="joke-actions">
-            <a class="joke-save hidden" id="{{_id}}-save" data-id="{{_id}}">💾</a>
-            <a class="joke-edit" data-id="{{_id}}">📝</a>
-            <a class="joke-delete" data-id="{{_id}}">🗑️</a>
-        </div>
         <p class="joke-setup">{{setup}}</p>
         <p class="joke-punchline hidden" id="{{_id}}-punchline">{{punchline}}</p>
         <div class="joke-edit-actions hidden" id="{{_id}}-edit-actions">
