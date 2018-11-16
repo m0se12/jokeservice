@@ -1,41 +1,78 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+let express = require('express');
+const mongoose = require('mongoose');
+const fetch = require('node-fetch');
+const JokeRegistry = require('./JokeRegistry')
+const JokeSchema = require('./models/Joke')
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 
-var app = express();
+let app = express();
+const jokeRegistry = new JokeRegistry()
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
+mongoose.Promise = Promise;
+mongoose.connect(`mongodb://mose:kode123@ds037778.mlab.com:37778/jokes_mm`, {useNewUrlParser : true})
 
-app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.get('/api/jokes', async (request, response) => {
+    response.json(await JokeSchema.find().exec());
+})
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+app.get('/api/othersites', async (request, response) => {
+    response.json(await jokeRegistry.getServices());
+})
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.get('/api/otherjokes/:serviceName', async (request, response) => {
+    const serviceName = request.params.serviceName;
+    const services = await jokeRegistry.getServices();
+    const service = services.find(service => service.name === serviceName);
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+    let jokes
 
-module.exports = app;
+    if (service) {
+        jokes = await fetch(service.address + 'api/jokes').then(response => response.json())
+
+    } else {
+        jokes = []
+    }
+
+    response.json(jokes)
+})
+
+app.post('/api/jokes', async (request, response) => {
+    const setup = request.body.setup;
+    const punchline = request.body.punchline;
+
+        await new JokeSchema({ setup, punchline }).save();
+
+        response.status(200).send('Joke added');
+})
+
+app.delete('/api/jokes', async (request, response) => {
+    const id = request.body.id;
+
+    await JokeSchema.findByIdAndDelete(id).exec();
+
+    response.status(100).send('Joke deleted');
+})
+
+app.patch('/api/jokes', async (request, response) => {
+    const { id, setup, punchline } = request.body
+
+    await JokeSchema.updateOne({ _id: id }, { setup, punchline }).exec()
+
+    response.status(100).send('Joke updated')
+})
+
+console.log('Registering joke service')
+jokeRegistry.addService({
+    name: 'badjokes',
+    address: 'https://badjokes.herokuapp.com/',
+    secret: '111'
+}).then(() => console.log('Joke service registered'))
+
+const port = process.env.PORT || 8080
+console.log('Listening on port ' + port)
+
+app.listen(port)
+
