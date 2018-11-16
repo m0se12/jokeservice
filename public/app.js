@@ -7,8 +7,6 @@ const templates = new JokeTemplates()
 const selfServiceName = 'badjokes'
 let activeService = selfServiceName
 
-const displayLoader = () => document.getElementById('jokes').innerHTML = templates.loader
-
 const updateContent = async () => {
     document.getElementById('content').innerHTML = await templates.compileContent()
     document.querySelector(`[data-service-name="${activeService}"]`).classList.add('active')
