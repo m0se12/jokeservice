@@ -1,6 +1,9 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-module.exports = mongoose.model('Joke', new mongoose.Schema({
-    setup: { type: String, required: true },
-    punchline: { type: String, required: true }
-}))
+const jokeSchema = new Schema({
+    setup: String,
+    punchline: String
+});
+
+module.exports = mongoose.model('Joke', jokeSchema);
