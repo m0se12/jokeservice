@@ -83,11 +83,8 @@ listenForClicks(target => target.matches('#add-submit'), async target => {
         return
     }
 
-
-
     inputSetup.value = ''
     inputPunchline.value = ''
-
     await service.addJoke({ setup, punchline })
     await templates.registerJokesPartial(await service.getJokes())
     await updateContent()
