@@ -72,7 +72,7 @@ listenForClicks(target => target.matches('.joke'), async target => {
 })
 
 // Listen for clicks on add button
-listenForClicks(target => target.matches('#add-submit'), async target => {
+listenForClicks(target => target.matches('#add-submit'), async () => {
     const inputSetup = document.getElementById('add-setup')
     const inputPunchline = document.getElementById('add-punchline')
 
@@ -90,46 +90,10 @@ listenForClicks(target => target.matches('#add-submit'), async target => {
     await updateContent()
 })
 
-// Listen for clicks on delete button
-listenForClicks(target => target.matches('.joke-delete'), async target => {
-    const id = target.dataset.id
 
-    displayLoader()
 
-    await service.deleteJoke(id)
-    await templates.registerJokesPartial(await service.getJokes())
-    await updateContent()
-})
 
-// Listen for clicks on save button
-listenForClicks(target => target.matches('.joke-save'), async target => {
-    const id = target.dataset.id
 
-    const setup = document.getElementById(`${id}-edit-setup`).value
-    const punchline = document.getElementById(`${id}-edit-punchline`).value
-
-    displayLoader()
-
-    await service.updateJoke(id, setup, punchline)
-    await templates.registerJokesPartial(await service.getJokes())
-    await updateContent()
-})
-
-// Listen for clicks on edit button
-listenForClicks(target => target.matches('.joke-edit'), async target => {
-    const id = target.dataset.id
-
-    const classListActions = document.getElementById(`${id}-edit-actions`).classList
-    const classListSave = document.getElementById(`${id}-save`).classList
-
-    if (classListActions.contains('hidden')) {
-        classListActions.remove('hidden')
-        classListSave.remove('hidden')
-    } else {
-        classListActions.add('hidden')
-        classListSave.add('hidden')
-    }
-})
 
 onload = async () => {
     const [jokes, services] = await Promise.all([service.getJokes(), service.getOtherSites()])
