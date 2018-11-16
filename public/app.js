@@ -7,6 +7,7 @@ const templates = new JokeTemplates()
 const selfServiceName = 'badjokes'
 let activeService = selfServiceName
 
+
 const updateContent = async () => {
     document.getElementById('content').innerHTML = await templates.compileContent()
     document.querySelector(`[data-service-name="${activeService}"]`).classList.add('active')
@@ -45,7 +46,7 @@ listenForClicks(target => target.matches('.service-button') && !target.matches('
         document.querySelector('.add').classList.add('hidden')
     }
 
-    displayLoader()
+
 
     let jokes
     if (serviceName === selfServiceName) {
@@ -82,7 +83,7 @@ listenForClicks(target => target.matches('#add-submit'), async target => {
         return
     }
 
-    displayLoader()
+
 
     inputSetup.value = ''
     inputPunchline.value = ''

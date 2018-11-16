@@ -1,3 +1,5 @@
+import * as Handlebars from "handlebars";
+
 export default class JokeTemplates {
 
     async compileContent () {
