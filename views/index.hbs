@@ -1,0 +1,111 @@
+
+
+<div class="page-header">
+</div>
+<div class="row">
+    <div class="col-md-12" id="jokes">
+
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#home">Egne jokes</a></li>
+            <li><a data-toggle="tab" href="#menu1">Andres jokes</a></li>
+            <li><a data-toggle="tab" href="#menu2">Opret egen joke</a></li>
+
+        </ul>
+
+        <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+
+                <h3>Egne jokes</h3>
+
+
+                        {{#each ownjokes}}
+
+                          <div class="well well-lg">
+                                {{this.setup}} <span class="glyphicon glyphicon-arrow-right"></span> {{this.punchline}}
+                            </div>
+
+
+                        {{/each}}
+                    </div>
+
+            <div id="menu1" class="tab-pane fade">
+                <h3>Andres jokes</h3>
+                <div class="col-md-2">
+                    <ul class="nav  flex-column">
+                        {{#each otherSources}}
+                            <li><a data-toggle="tab" href="#{{this._id}}">{{this.name}}</a></li>
+                        {{/each}}
+
+                    </ul>
+                </div>
+                <div class="col-md-10">
+                    <div class="tab-content">
+                        {{#each otherSources}}
+                        <div id="{{this._id}}" class="tab-pane fade">
+
+                            <div class="jumbotron">
+                                <div class="container">
+                                    <h1>{{this.name}}</h1>
+                                    <p><a class="btn btn-primary btn-lg" href="{{this.address}}" role="button">Gå til webside!</a></p>
+                                </div>
+                            </div>
+
+                            {{#each (lookup ../otherjokes this._id) }}
+                                <div class="well well-lg">
+                                    {{this.setup}} <span class="glyphicon glyphicon-arrow-right"></span> {{this.punchline}}
+                                </div>
+                            {{/each}}
+
+
+
+
+
+                        </div>
+                        {{/each}}
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+            <div id="menu2" class="tab-pane fade">
+                <h3>Opret joke</h3>
+                <div class="row">
+                    <form action="api/jokes" method="post">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Setup</span>
+                            <input type="text" class="form-control" name="setup" placeholder="Setup" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Punchline</span>
+                            <input type="text" class="form-control" name="punchline" placeholder="Punchline" aria-describedby="basic-addon1">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Gem</button>
+                    </div>
+                    </form>
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+
+
+
+
+    </div>
+</div>
+
+
+
+
+
+
+
