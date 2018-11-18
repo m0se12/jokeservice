@@ -1,6 +1,6 @@
-var express = require('express');
+let express = require('express');
 const fetch = require('node-fetch');
-var router = express.Router();
+let router = express.Router();
 
 const api = require("../routes/api");
 
@@ -10,7 +10,7 @@ const baseUrl = "http://localhost:8010";
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {
-    var json = {};
+    let json = {};
 
     function addToJsonArray(key,value) {
         json[key] = value;

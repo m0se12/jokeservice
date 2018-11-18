@@ -1,35 +1,44 @@
-
-
-<div class="page-header">
-</div>
-<div class="row">
+<style>
+    .sortHumor{
+        background-color: black;
+        color:white;
+        margin: 3px;
+        padding: 1px;
+    }
+    h2{
+        font-size: 26px;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    p {
+        margin: 0 0 0;
+    }
+</style>
+<div class="grid-container">
     <div class="col-md-12" id="jokes">
 
-        <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#home">Egne jokes</a></li>
-            <li><a data-toggle="tab" href="#menu1">Andres jokes</a></li>
-            <li><a data-toggle="tab" href="#menu2">Opret egen joke</a></li>
-
-        </ul>
-
         <div class="tab-content">
-            <div id="home" class="tab-pane fade in active">
-
-                <h3>Egne jokes</h3>
-
-
+                <h3>Jokes</h3>
                         {{#each ownjokes}}
-
-                          <div class="well well-lg">
-                                {{this.setup}} <span class="glyphicon glyphicon-arrow-right"></span> {{this.punchline}}
+                          <div class="sortHumor">
+                              <div class="sortHumor">
+                                  <h2>{{this.setup}}</h2>
+                                  <p>{{this.punchline}}</p>
+                              </div>
                             </div>
 
 
                         {{/each}}
                     </div>
 
-            <div id="menu1" class="tab-pane fade">
-                <h3>Andres jokes</h3>
+
+
+
+
+        </div>
+
+            <div id="menu1" class="grid-item">
+                <h3>Other Sites</h3>
                 <div class="col-md-2">
                     <ul class="nav  flex-column">
                         {{#each otherSources}}
@@ -46,13 +55,14 @@
                             <div class="jumbotron">
                                 <div class="container">
                                     <h1>{{this.name}}</h1>
-                                    <p><a class="btn btn-primary btn-lg" href="{{this.address}}" role="button">Gå til webside!</a></p>
+                                    <p><a href="{{this.address}}">Gå til webside!</a></p>
                                 </div>
                             </div>
 
                             {{#each (lookup ../otherjokes this._id) }}
-                                <div class="well well-lg">
-                                    {{this.setup}} <span class="glyphicon glyphicon-arrow-right"></span> {{this.punchline}}
+                                <div class="sortHumor">
+                                    <h2>{{this.setup}}</h2>
+                                    <p>{{this.punchline}}</p>
                                 </div>
                             {{/each}}
 
@@ -71,20 +81,20 @@
 
             </div>
 
-            <div id="menu2" class="tab-pane fade">
-                <h3>Opret joke</h3>
+            <div id="menu2" class="grid-item">
+                <h3>Lav en joke</h3>
                 <div class="row">
-                    <form action="api/jokes" method="post">
+                    <form action="/api/jokes" method="post">
                     <div class="col-md-6">
                         <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1">Setup</span>
+                            <span class="input-group-addon" id="basic-addon2">Setup</span>
                             <input type="text" class="form-control" name="setup" placeholder="Setup" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1">Punchline</span>
+                            <span class="input-group-addon" id="basic-addon2">Punchline <br> 😆😆😆😆</span>
                             <input type="text" class="form-control" name="punchline" placeholder="Punchline" aria-describedby="basic-addon1">
+                            <button type="submit" class="btn btn-outline-secondary">Lav Joke</button>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">Gem</button>
                     </div>
                     </form>
 
