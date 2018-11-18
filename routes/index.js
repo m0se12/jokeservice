@@ -2,13 +2,11 @@ let express = require('express');
 const fetch = require('node-fetch');
 let router = express.Router();
 
-const api = require("../routes/api");
 
 const baseUrl = "http://localhost:8010";
 //const baseUrl = "https://badjokes.herokuapp.com/";
 
 
-/* GET home page. */
 router.get('/', async function(req, res, next) {
     let json = {};
 
