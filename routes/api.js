@@ -5,8 +5,8 @@ const Schema = mongoose.Schema;
 mongoose.Promise = Promise;
 mongoose.connect('mongodb://mose:kode123@ds037778.mlab.com:37778/jokes_mm', {useNewUrlParser: true});
 
-//const baseUrl = "http://localhost:8010";
-const baseUrl = "https://badjokes.herokuapp.com/";
+const baseUrl = "http://localhost:8010";
+//const baseUrl = "https://badjokes.herokuapp.com/";
 
 addService();
 async function addService() {

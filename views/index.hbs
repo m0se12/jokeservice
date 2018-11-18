@@ -16,7 +16,6 @@
 </style>
 <div class="grid-container">
     <div class="col-md-12" id="jokes">
-
         <div class="tab-content">
                 <h3>Jokes</h3>
                         {{#each ownjokes}}
@@ -26,18 +25,10 @@
                                   <p>{{this.punchline}}</p>
                               </div>
                             </div>
-
-
                         {{/each}}
                     </div>
-
-
-
-
-
         </div>
-
-            <div id="menu1" class="grid-item">
+            <div class="grid-item">
                 <h3>Other Sites</h3>
                 <div class="col-md-2">
                     <ul class="nav  flex-column">
@@ -51,37 +42,24 @@
                     <div class="tab-content">
                         {{#each otherSources}}
                         <div id="{{this._id}}" class="tab-pane fade">
-
                             <div>
                                 <div class="container">
                                     <h1>{{this.name}}</h1>
-                                    <p><a href="{{this.address}}">Gå til webside!</a></p>
+                                    <p><a href="{{this.address}}">Gå til {{this.name}}'s webside!</a></p>
                                 </div>
                             </div>
-
                             {{#each (lookup ../otherjokes this._id) }}
                                 <div class="sortHumor">
                                     <h2>{{this.setup}}</h2>
                                     <p>{{this.punchline}}</p>
                                 </div>
                             {{/each}}
-
-
-
-
-
                         </div>
                         {{/each}}
-
                     </div>
                 </div>
-
-
-
-
             </div>
-
-            <div id="menu2" class="grid-item">
+            <div class="grid-item">
                 <h3>Lav en joke</h3>
                 <div class="row">
                     <form action="/api/jokes" method="post">
@@ -97,19 +75,9 @@
                         </div>
                     </div>
                     </form>
-
                 </div>
-
-
-
             </div>
-
         </div>
-
-
-
-
-
     </div>
 </div>
 
