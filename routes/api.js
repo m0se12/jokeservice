@@ -8,6 +8,23 @@ mongoose.connect('mongodb://mose:kode123@ds037778.mlab.com:37778/jokes_mm', {use
 const baseUrl = "http://localhost:8010";
 //const baseUrl = "https://badjokes.herokuapp.com";
 
+const timeout = 500;
+
+function fetchWithTimeout( url, timeout ) {
+    return new Promise( (resolve, reject) => {
+        // Set timeout timer
+        let timer = setTimeout(
+            () => reject( new Error('Request timed out') ),
+            timeout
+        );
+
+        fetch( url ).then(
+            response => resolve( response ),
+            err => reject( err )
+        ).finally( () => clearTimeout(timer) );
+    })
+}
+
 addService();
 async function addService() {
     let result = await fetch("https://krdo-joke-registry.herokuapp.com/api/services", {
@@ -66,7 +83,7 @@ router.get('/othersites', function(req, res) {
 
 router.get('/otherjokes/:site', function(req, res) {
     let url = "http://"+req.params['site']+"/api/jokes";
-    return fetch(url).then(function (response) {
+    return fetchWithTimeout(url, timeout).then(function (response) {
 
         return response.json().then(function (value) {
             res.send(value)
@@ -80,7 +97,7 @@ router.get('/otherjokes/:site', function(req, res) {
 });
 
 router.get('/allOtherJokes', async function(req, res, next) {
-    let otherJokesResult = await fetch(baseUrl+"/api/othersites").then(resultat=>resultat.json()).then(async resultat => {
+    let otherJokesResult = await fetchWithTimeout(baseUrl+"/api/othersites", timeout).then(resultat=>resultat.json()).then(async resultat => {
         let jsonObject = {};
 
         for(let site of resultat)
@@ -101,6 +118,7 @@ router.get('/allOtherJokes', async function(req, res, next) {
 });
 
 router.post('/jokes',function (req, res) {
+
     createJoke(req.body.setup, req.body.punchline);
     backURL = req.header('Referer');
     if (backURL != null) {
