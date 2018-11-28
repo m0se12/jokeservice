@@ -47,7 +47,7 @@ const joke = new Schema({
     punchline: String
 });
 
-const Joke = mongoose.model('Joke', joke, next);
+const Joke = mongoose.model('Joke', joke);
 
 function createJoke(setup_in, punchline_in) {
 
