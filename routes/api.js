@@ -27,7 +27,7 @@ function fetchWithTimeout( url, timeout ) {
 
 addService();
 async function addService() {
-    let result = await fetch("https://krdo-joke-registry.herokuapp.com/api/services", {
+     await fetch("https://krdo-joke-registry.herokuapp.com/api/services", {
         method: 'POST',
         body: JSON.stringify({
             "name": "badjokes",
@@ -62,7 +62,7 @@ function getJokes() {
     return Joke.find().exec();
 }
 
-router.get('/jokes', function(req, res, next) {
+router.get('/jokes', function(req, res) {
 
     getJokes().then(function (i) {
         res.json(i);
@@ -70,7 +70,7 @@ router.get('/jokes', function(req, res, next) {
 
 });
 
-router.get('/othersites', function(req, res, next) {
+router.get('/othersites', function(req, res) {
     let url = 'https://krdo-joke-registry.herokuapp.com/api/services';
 
     return fetch(url).then(function (response) {
@@ -81,22 +81,22 @@ router.get('/othersites', function(req, res, next) {
     })
 });
 
-router.get('/otherjokes/:site', function(req, res, next) {
+router.get('/otherjokes/:site', function(req, res) {
     let url = "http://"+req.params['site']+"/api/jokes";
     return fetchWithTimeout(url, timeout).then(function (response) {
 
         return response.json().then(function (value) {
             res.send(value)
-        }).catch(i=>{
+        }).catch(function() {
             res.end();
         })
-    }).catch(i=>{
+    }).catch(function() {
         res.end();
     })
 
 });
 
-router.get('/allOtherJokes', async function(req, res, next) {
+router.get('/allOtherJokes', async function(req, res) {
     let otherJokesResult = await fetchWithTimeout(baseUrl+"/api/othersites", timeout).then(resultat=>resultat.json()).then(async resultat => {
         let jsonObject = {};
 
@@ -117,10 +117,10 @@ router.get('/allOtherJokes', async function(req, res, next) {
 
 });
 
-router.post('/jokes',function (req, res, next) {
+router.post('/jokes',function (req, res) {
 
     createJoke(req.body.setup, req.body.punchline);
-    backURL = req.header('Referer');
+    let backURL = req.header('Referer');
     if (backURL != null) {
         res.redirect(backURL);
     }

@@ -28,11 +28,11 @@ app.use(function(err, req, res, next) {
 });
 
 app.all('/', function(request, response) {
-  let html = '<h1>' + request.method+ ': /</h1>';
+  let html = '<h1>' + request.method+ ':/ </h1>';
   response.send(html);})
     .all('/:sti', function(request, response){
       let html = '<h1>' + request.method+ ': ' + request.params.sti+ '</h1>';
       response.send(html);
-    }).listen(process.env.PORT  || 8010);
+    }).listen(process.env.PORT || 8010);
 
 module.exports = app;
