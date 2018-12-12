@@ -36,7 +36,7 @@ async function addService() {
         }),
         headers: { 'Content-Type': 'application/json' }
     });
-    console.log("Added to service")
+    console.log("Lytter på port 8010")
 }
 
 const router = express.Router();
@@ -97,6 +97,7 @@ router.get('/otherjokes/:site', function(req, res) {
 });
 
 router.get('/allOtherJokes', async function(req, res) {
+
     let otherJokesResult = await fetchWithTimeout(baseUrl+"/api/othersites", timeout).then(resultat=>resultat.json()).then(async resultat => {
         let jsonObject = {};
 
