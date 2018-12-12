@@ -1,7 +1,7 @@
 onload = async () => {
 
-   // const baseUrl = "http://localhost:8010";
-    const baseUrl = "https://badjokes.herokuapp.com/";
+    //const baseUrl = "http://localhost:8010";
+    const baseUrl = "https://badjokes.herokuapp.com";
 
     const [template, ownjokesFetched, othersitesFetched, allOtherJokesFetched] = await Promise.all(
         [
